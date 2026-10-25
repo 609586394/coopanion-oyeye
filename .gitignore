@@ -1,0 +1,6 @@
+*.mp3
+*.m4a
+*.wav
+web/party/
+backup-party/
+*.log
