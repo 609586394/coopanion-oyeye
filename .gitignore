@@ -1,6 +1,4 @@
-*.mp3
-*.m4a
-*.wav
-web/party/
-backup-party/
+# ignore transient files only; assets/friends-wine.mp3 is shipped on purpose
 *.log
+*.tmp
+backup-party/

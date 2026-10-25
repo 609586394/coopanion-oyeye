@@ -245,10 +245,11 @@ if ($cssText.Contains('figure-layer.party')) {
   Ok '动画样式 — 已追加'
 }
 
-# ---- 4) the song (never shipped: pass -Audio or -SongUrl) -------------------
+# ---- 4) the song: -Audio, -SongUrl, the repo's assets, or the bundled URL ---
 $partyDir = Join-Path $world 'web\party'
 New-Item -ItemType Directory -Force -Path $partyDir | Out-Null
 $song = Join-Path $partyDir 'friends-wine.mp3'
+$BundledAudio = 'https://raw.githubusercontent.com/609586394/coopanion-oyeye/main/assets/friends-wine.mp3'
 
 if ($Audio) {
   if (-not (Test-Path $Audio)) { Fail "找不到音频：$Audio" }
@@ -266,7 +267,19 @@ if ($Audio) {
   Move-Item ($song + '.tmp.mp3') $song -Force
   Ok '音频已下载'
 } elseif (-not (Test-Path $song)) {
-  Warn '没有音频：动画能用，但不会出声。用 -Audio <mp3> 或 -SongUrl <页面> 提供。'
+  $local = if ($PSScriptRoot) { Join-Path $PSScriptRoot 'assets\friends-wine.mp3' } else { '' }
+  if ($local -and (Test-Path $local)) {
+    Copy-Item $local $song -Force
+    Ok '音频已从仓库复制'
+  } else {
+    Info '下载内置音频：《朋友的酒》DJ 完整版（B 站 BV1hXbN6VEKV，UP 主：活跃黑江乐）…'
+    try {
+      Invoke-WebRequest $BundledAudio -OutFile $song -UseBasicParsing -TimeoutSec 300
+      Ok '音频已下载'
+    } catch {
+      Warn '音频下载失败：动画能用但不会出声。用 -Audio <mp3> 提供。'
+    }
+  }
 }
 
 # ---- 5) syntax check --------------------------------------------------------

@@ -4,6 +4,8 @@
 
 > 对它说 **「欧耶耶」** → 播放《朋友的酒》并跟着节拍把整个人压扁弹起；说 **「停停」** → 停下。
 
+仓库**自带音频**（`assets/friends-wine.mp3`，5.5 MB），安装时自动下载，装完直接有声音。想换自己的歌用 `-Audio` 或 `-SongUrl`。
+
 ![效果](https://img.shields.io/badge/Coopanion-0.2.8-00a870) ![license](https://img.shields.io/badge/license-AGPL--3.0-blue)
 
 ---
@@ -16,13 +18,13 @@
 
 agent 需要做的：
 
-**最省事：一行命令，不用 clone**
+**最省事：一行命令，不用 clone**（音频会自动下载）
 
 ```powershell
 $p="$env:TEMP\coopanion-party.ps1"; irm https://raw.githubusercontent.com/609586394/coopanion-oyeye/main/install.ps1 -OutFile $p; powershell -ExecutionPolicy Bypass -File $p -Restart
 ```
 
-要带音频的话：
+换自己的音频：
 
 ```powershell
 $p="$env:TEMP\coopanion-party.ps1"; irm https://raw.githubusercontent.com/609586394/coopanion-oyeye/main/install.ps1 -OutFile $p; powershell -ExecutionPolicy Bypass -File $p -Audio "D:\music\friends-wine.mp3" -Restart
@@ -72,9 +74,22 @@ $p="$env:TEMP\coopanion-party.ps1"; irm https://raw.githubusercontent.com/609586
 
 ## 音频
 
-**仓库不附带任何音频。** 《朋友的酒》是有版权的录音，请自行准备，或用 `-SongUrl` 从你有权使用的来源提取（需要 Python + yt-dlp）。
+仓库自带一份 `assets/friends-wine.mp3`（5.5 MB，187 秒），安装时复制到
+`...\cortico-world-desktop-pet\web\party\friends-wine.mp3`。
 
-音频放在 `...\cortico-world-desktop-pet\web\party\friends-wine.mp3`。没有音频时动画照常，只是没声音。
+- 想换成自己的歌：`-Audio "D:\music\xxx.mp3"`；
+- 想从页面提取：`-SongUrl "https://..."`（需要 Python + yt-dlp）；
+- 目标位置已有文件时不会重复下载。
+
+**音频来源**：B 站视频 [BV1hXbN6VEKV](https://www.bilibili.com/video/BV1hXbN6VEKV/)
+（UP 主：**活跃黑江乐**）——《朋友的酒》DJ 完整版。录音版权归原权利人，本仓库仅为个人分享，
+如权利人要求会立即删除。**仅供个人学习使用，请勿商用或二次分发。**
+
+**灵感来源**：B 站视频 [BV1TbJ665Ecf](https://www.bilibili.com/video/BV1TbJ665Ecf/)
+「【赤石科技/dsh 插件】发送欧耶耶让你的肥鱼开始蹦迪」（UP 主：**非得干点啥**），
+原项目 [dsh-disco-whale](https://github.com/learnfrom325/dsh-disco-whale)。
+那条视频的灵感来自 BV1kTp962EJG（@幸羽雪雪），角色图来自 dsh-whale-widget（@T7moris）。
+本仓库只重写了 Coopanion 这一侧的触发与动画，与上述作者无隶属关系。
 
 ## 卸载
 
@@ -91,7 +106,8 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1 -Uninstall -Restart
 
 ## 许可与来源
 
-- 本项目：**AGPL-3.0-or-later**（见 [LICENSE](LICENSE)）。
+- 本项目代码：**AGPL-3.0-or-later**（见 [LICENSE](LICENSE)、[COPYING](COPYING)）。
 - 基于 [Coopanion](https://github.com/Pal-AI-Lab/Coopanion)（AGPL-3.0）与 [Cortico](https://github.com/Pal-AI-Lab/Cortico)（MIT）的代码修改，版权归原作者。
-- 不含 DeepSeek Whale 美术资源（不在 AGPL 覆盖范围），也不含歌曲音频。
-- 详见 [NOTICE](NOTICE)。
+- **不含** DeepSeek Whale 美术资源（不在 AGPL 覆盖范围）。
+- 音频版权不属于本项目，见上面的「音频来源」。
+- 详见 [NOTICE](NOTICE.md)。
