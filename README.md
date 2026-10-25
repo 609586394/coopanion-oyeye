@@ -19,13 +19,13 @@ agent 需要做的：
 **最省事：一行命令，不用 clone**
 
 ```powershell
-& ([scriptblock]::Create((irm https://raw.githubusercontent.com/609586394/coopanion-oyeye/main/install.ps1))) -Restart
+$p="$env:TEMP\coopanion-party.ps1"; irm https://raw.githubusercontent.com/609586394/coopanion-oyeye/main/install.ps1 -OutFile $p; powershell -ExecutionPolicy Bypass -File $p -Restart
 ```
 
 要带音频的话：
 
 ```powershell
-& ([scriptblock]::Create((irm https://raw.githubusercontent.com/609586394/coopanion-oyeye/main/install.ps1))) -Audio "D:\music\friends-wine.mp3" -Restart
+$p="$env:TEMP\coopanion-party.ps1"; irm https://raw.githubusercontent.com/609586394/coopanion-oyeye/main/install.ps1 -OutFile $p; powershell -ExecutionPolicy Bypass -File $p -Audio "D:\music\friends-wine.mp3" -Restart
 ```
 
 **或者** clone / 下载 zip，在仓库目录里：
