@@ -16,8 +16,21 @@
 
 agent 需要做的：
 
-1. 拿到仓库（clone 或下载 zip 解压）。
-2. 在仓库目录里运行：
+**最省事：一行命令，不用 clone**
+
+```powershell
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/609586394/coopanion-oyeye/main/install.ps1))) -Restart
+```
+
+要带音频的话：
+
+```powershell
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/609586394/coopanion-oyeye/main/install.ps1))) -Audio "D:\music\friends-wine.mp3" -Restart
+```
+
+**或者** clone / 下载 zip，在仓库目录里：
+
+1. 运行：
 
    ```powershell
    powershell -ExecutionPolicy Bypass -File .\install.ps1 -Restart
@@ -25,7 +38,7 @@ agent 需要做的：
 
    脚本会自己找 Coopanion（运行中的进程、`%LOCALAPPDATA%\Programs\Coopanion`、`D:\Coopanion`、`C:\Coopanion`），备份三个文件，打补丁，做 JS 语法检查，然后重启。
 
-3. 音频默认没有（版权原因）。要完整效果，先让使用者提供一个 mp3，再跑：
+2. 音频默认没有（版权原因）。要完整效果，先让使用者提供一个 mp3，再跑：
 
    ```powershell
    powershell -ExecutionPolicy Bypass -File .\install.ps1 -Audio "D:\music\friends-wine.mp3" -Restart
@@ -37,9 +50,9 @@ agent 需要做的：
    powershell -ExecutionPolicy Bypass -File .\install.ps1 -SongUrl "https://www.bilibili.com/video/BV..." -Restart
    ```
 
-4. 验收：宠物窗口出现后，在 Coopanion 对话框输入「欧耶耶」——应该开始放歌并压扁弹跳；输入「停停」停下。
+3. 验收：宠物窗口出现后，在 Coopanion 对话框输入「欧耶耶」——应该开始放歌并压扁弹跳；输入「停停」停下。
 
-5. 失败时把脚本输出原样带回；`-Uninstall` 可从备份还原。
+4. 失败时把脚本输出原样带回；`-Uninstall` 可从备份还原。
 
 ---
 
