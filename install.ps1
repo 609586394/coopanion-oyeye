@@ -1,5 +1,4 @@
-﻿#Requires -Version 5.1
-<#
+﻿<#
 .SYNOPSIS
   Coopanion party patch — 「欧耶耶」 plays a song and squashes the pet on the beat.
 
