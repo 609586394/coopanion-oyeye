@@ -103,10 +103,12 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1 -Uninstall -Restart
 
 ## 已知边界
 
-- 只在 **Coopanion 0.2.8 / Windows** 上验证过；其他版本锚点可能不匹配，脚本会中止并提示。
-- Coopanion 升级会覆盖 `resources`，升级后需要重跑一次。
-- 节拍按 129.2 BPM（实测这首歌）计算；换别的歌会把 BPM 写死在 `PARTY_BEAT` 里，需要改。
-- 压扁是缩放整个 `figure-layer`，所以 origin 跟着身体位置走；如果宠物走到屏幕边缘仍觉得有位移，那是这个实现的固有边界。
+- **版本**：Windows 上验证过 Coopanion **0.2.8 和 0.2.10**；其他版本如果锚点对不上，脚本会中止并提示，不会写坏文件。
+- **升级**：Coopanion 升级会覆盖 `resources`，升级后重跑一次 `install.ps1` 即可（幂等，不会重复打补丁）。
+- **节拍**：按 129.2 BPM（实测这首歌）写死在 `PARTY_BEAT` 里；换别的歌要一起改，否则压扁对不上鼓点。
+- **歌词**：时间轴来自原视频画面字幕的 OCR，重复段落和同音字可能有偏差；换歌要同时换 `assets/lyrics.json`。
+- **压扁范围**：缩放的是整个宠物图层（`figure-layer`），不是单张立绘。原点会跟着身体位置走，但在极窄的屏幕边缘仍可能有 1px 级的抖动。
+- **音频**：仓库自带的音轨是有版权的录音，仅作个人分享，见上面的「音频与歌词」。
 
 ## 许可与来源
 
