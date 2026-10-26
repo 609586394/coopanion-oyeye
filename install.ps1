@@ -173,6 +173,36 @@ const PARTY_BEAT = 60 / 129.2;
 function partyScaleY(p) {
   return 1 - .567 * Math.exp(-3 * p) * Math.sin(2 * Math.PI * p);
 }
+/** The song's lines, shown in the speech bubble while it plays (the pet does not sing). */
+let lyricRows = null, lyricNow = '';
+async function loadLyrics() {
+  if (lyricRows) return;
+  try { lyricRows = await (await fetch('/web/party/lyrics.json')).json(); } catch { lyricRows = []; }
+}
+function lyricAt(t) {
+  if (!lyricRows?.length) return null;
+  let lo = 0, hi = lyricRows.length - 1, found = -1;
+  while (lo <= hi) { const mid = (lo + hi) >> 1; if (lyricRows[mid].t <= t) { found = mid; lo = mid + 1; } else hi = mid - 1; }
+  return found >= 0 ? lyricRows[found] : null;
+}
+function showLyric(text) {
+  if (!text || text === lyricNow) return;
+  lyricNow = text;
+  bubble.className = 'bubble say';
+  bubble.dataset.lyric = '1';
+  bubble.innerHTML = '<p class="b-text"></p>';
+  bubble.querySelector('.b-text').textContent = text;
+  bubble.hidden = false;
+  void bubble.offsetWidth;
+  bubble.classList.add('pop');
+}
+function clearLyric() {
+  if (bubble.dataset.lyric !== '1') { lyricNow = ''; return; }
+  bubble.hidden = true;
+  bubble.innerHTML = '';
+  delete bubble.dataset.lyric;
+  lyricNow = '';
+}
 let partyRaf = 0, partySy = 1, partyLast = 0;
 function partyStep(now) {
   partyRaf = 0;
@@ -188,6 +218,8 @@ function partyStep(now) {
   const l = at();
   if (l) layer.style.transformOrigin = `${l.x}px 100%`;
   layer.style.transform = `scale(${sx.toFixed(4)}, ${sy.toFixed(4)})`;
+  const row = lyricAt(partyAudio.currentTime);
+  if (row) showLyric(row.text);
   partyRaf = requestAnimationFrame(partyStep);
 }
 function startPartyRaf() { if (!partyRaf) partyRaf = requestAnimationFrame(partyStep); }
@@ -199,7 +231,8 @@ function startParty() {
     partyAudio.addEventListener('playing', startPartyRaf);
   }
   try { partyAudio.currentTime = 0; } catch (e) { /* not loaded yet */ }
-  partySy = 1; partyLast = 0;
+  partySy = 1; partyLast = 0; lyricNow = '';
+  loadLyrics();
   partyAudio.play().catch(() => {});
   partyLayer()?.classList.add('party');
   startPartyRaf();
@@ -215,6 +248,7 @@ function stopParty() {
   layer?.classList.remove('party');
   layer?.style.removeProperty('transform');
   layer?.style.removeProperty('transform-origin');
+  clearLyric();
 }
 function partyCheck(text) {
   if (typeof text !== 'string' || text === '') return;
@@ -278,6 +312,23 @@ if ($Audio) {
       Ok '音频已下载'
     } catch {
       Warn '音频下载失败：动画能用但不会出声。用 -Audio <mp3> 提供。'
+    }
+  }
+}
+
+# the lyrics the bubble shows while it plays: from the video's burned-in subtitles
+$lyrics = Join-Path $partyDir 'lyrics.json'
+if (-not (Test-Path $lyrics)) {
+  $localLyrics = if ($PSScriptRoot) { Join-Path $PSScriptRoot 'assets\lyrics.json' } else { '' }
+  if ($localLyrics -and (Test-Path $localLyrics)) {
+    Copy-Item $localLyrics $lyrics -Force
+    Ok '歌词已从仓库复制'
+  } else {
+    try {
+      Invoke-WebRequest 'https://raw.githubusercontent.com/609586394/coopanion-oyeye/main/assets/lyrics.json' -OutFile $lyrics -UseBasicParsing -TimeoutSec 60
+      Ok '歌词已下载'
+    } catch {
+      Warn '歌词下载失败：歌照放，只是没有歌词'
     }
   }
 }

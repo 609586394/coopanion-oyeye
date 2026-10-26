@@ -2,11 +2,11 @@
 
 给 [Coopanion](https://github.com/Pal-AI-Lab/Coopanion) 的桌宠加一个彩蛋：
 
-> 对它说 **「欧耶耶」** → 播放《朋友的酒》并跟着节拍把整个人压扁弹起；说 **「停停」** → 停下。
+> 对它说 **「欧耶耶」** → 播放《朋友的酒》、跟着节拍把整个人压扁弹起，气泡里同步显示歌词；说 **「停停」** → 停下。
 
-仓库**自带音频**（`assets/friends-wine.mp3`，5.5 MB），安装时自动下载，装完直接有声音。想换自己的歌用 `-Audio` 或 `-SongUrl`。
+仓库**自带音频**（`assets/friends-wine.mp3`，5.5 MB）和**歌词**（`assets/lyrics.json`，时间轴来自原视频画面里的字幕），安装时自动装好，装完直接有声音有词。想换自己的歌用 `-Audio` 或 `-SongUrl`。
 
-![效果](https://img.shields.io/badge/Coopanion-0.2.8-00a870) ![license](https://img.shields.io/badge/license-AGPL--3.0-blue)
+![效果](https://img.shields.io/badge/Coopanion-0.2.8%20%2F%200.2.10-00a870) ![license](https://img.shields.io/badge/license-AGPL--3.0-blue)
 
 ---
 
@@ -72,7 +72,7 @@ $p="$env:TEMP\coopanion-party.ps1"; irm https://raw.githubusercontent.com/609586
 
 备份在 `<Coopanion>\backup-party`，只备份第一次。
 
-## 音频
+## 音频与歌词
 
 仓库自带一份 `assets/friends-wine.mp3`（5.5 MB，187 秒），安装时复制到
 `...\cortico-world-desktop-pet\web\party\friends-wine.mp3`。
@@ -80,6 +80,10 @@ $p="$env:TEMP\coopanion-party.ps1"; irm https://raw.githubusercontent.com/609586
 - 想换成自己的歌：`-Audio "D:\music\xxx.mp3"`；
 - 想从页面提取：`-SongUrl "https://..."`（需要 Python + yt-dlp）；
 - 目标位置已有文件时不会重复下载。
+
+`assets/lyrics.json` 是播放时气泡里显示的歌词：时间轴来自原视频**画面里烧录的字幕**
+（按秒抽帧 + OCR 合并），文本经过人工校正。放歌时按 `audio.currentTime` 逐行切换，
+停止或播完自动收起。想配自己的歌，把 `lyrics.json` 换成 `[{"t": 秒, "text": "..."}]` 即可。
 
 **音频来源**：B 站视频 [BV1hXbN6VEKV](https://www.bilibili.com/video/BV1hXbN6VEKV/)
 （UP 主：**活跃黑江乐**）——《朋友的酒》DJ 完整版。录音版权归原权利人，本仓库仅为个人分享，
