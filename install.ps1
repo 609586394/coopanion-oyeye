@@ -261,7 +261,7 @@ Patch-File $app 'function addLine(src, text, live = false, extra = {}) {' ($part
 
 Patch-File $app "    case 'said': if (prefs.saidBubbles) addLine('chat'," "    case 'said': partyCheck(typeof m.text === 'string' ? m.text : ''); if (prefs.saidBubbles) addLine('chat'," 'partyCheck(typeof m.text' '对话页消息触发'
 
-Patch-File $app "    if (prefs.saidBubbles) addLine('type', v);" "    partyCheck(v);`r`n    if (prefs.saidBubbles) addLine('type', v);" 'partyCheck(v);' '气泡输入触发'
+Patch-File $app "    if (prefs.saidBubbles) addLine('type', v, false, { images: it.images.length });" "    partyCheck(v);`r`n    if (prefs.saidBubbles) addLine('type', v, false, { images: it.images.length });" 'partyCheck(v);' '气泡输入触发'
 
 Patch-File $app 'function settleLine(line, text) {' "function settleLine(line, text) {`r`n  partyCheck(text);" 'partyCheck(text);' '语音输入触发'
 
